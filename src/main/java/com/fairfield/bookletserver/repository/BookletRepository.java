@@ -72,10 +72,10 @@ public class BookletRepository {
     nameToBooklet.put(book4.getFileName(), book4);
     nameToBooklet.put(book5.getFileName(), book5);
     nameToBooklet.put(book6.getFileName(), book6);
-    recents.add(book1);
-    recents.add(book2);
-    recents.add(book5);
-    recents.add(book4);
+    recents.push(book1);
+    recents.push(book2);
+    recents.push(book5);
+    recents.push(book4);
   }
 
   public void insertBooklet(Booklet booklet) {
@@ -101,6 +101,6 @@ public class BookletRepository {
   }
 
   public List<Booklet> getRecentBooklets() {
-    return recents;
+    return recents.stream().toList();
   }
 }
