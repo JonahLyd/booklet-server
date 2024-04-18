@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Booklet Viewer</title>
+  <script type="text/javascript">
+    document.getElementById("avatar").onclick = function () {
+        location.href = "User.html";
+    };
+    document.getElementById("logo").onclick = function () {
+        location.href = "Login.html";
+    };
+  </script>
+  <link rel="stylesheet" type="text/css" media="all" href="../static/assets/css/booklet.css" th:href="@{/assets/css/booklet.css}"/>
+</head>
+
+<body>
+<div>
+  <img id="logo" src="../static/assets/images/tiny.jpg" alt="Logo">
+  <h1>View A Booklet</h1>
+  <img id="avatar" src="../static/assets/images/pfp.jpg" alt="Logo">
+</div>
+<div class="searchBar">
+  <input type="text" id="searchBar" name="searchbar" placeholder="Find a booklet by its name..." onkeyup="searchBooklet()">
+  <button onclick="">Search</button>
+</div>
+
+<div id="stockCarousel">
+
+  <div>
+
+    <embed th:src="../../../../../files/${level}/${fileName}" class="displayItem"/>
+    Preview a single PDF document relatively full screen
+
+  </div>
+
+</div>
+</body>
+</html>

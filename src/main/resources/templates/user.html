@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- For special cs styling only for this page-->
+<style>
+</style>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Colonial Coatings</title> <!-- Tab name-->
+    <link rel="stylesheet" type="text/css" media="all" href="../static/assets/css/user.css" th:href="@{/assets/css/user.css}"/>
+</head>
+
+<div class="head-align">
+    <img src="../static/assets/images/logo.jpg" height="70px" width="300px" alt="Logo" >
+</div>
+<!-- Nav Bar -->
+<div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="booklet.html">Booklet Viewer</a></li>
+            <li><a href="login.html">Log Out</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="text-center">
+    <h1>Home</h1>
+</div>
+
+<!-- Everything below nav -->
+<body>  
+    <div id="page-container">
+    <div id="content-wrap">  <!-- Everything under nav and above footer -->
+        <h1>Welcome, User</h1>
+    </div>
+</div>
+</body>
+</html>

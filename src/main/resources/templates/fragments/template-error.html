@@ -1,0 +1,4 @@
+<div th:if="${#fields.hasErrors('global')}" xmlns:th="http://www.w3.org/1999/xhtml">
+  <h3>Global errors:</h3>
+  <p th:each="err : ${#fields.errors('global')}" th:text="${err}" class="error"></p>
+</div>

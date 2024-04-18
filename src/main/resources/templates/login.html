@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Sign In</title>
+  <link rel="stylesheet" type="text/css" media="all" href="../static/assets/css/login.css" th:href="@{/static/assets/css/login.css}"/>
+</head>
+<body>
+  <div class="blocked">
+    <div class="imgcontainer">
+      <img src="../static/assets/images/logo.jpg" alt="Avatar" class="avatar"
+           th:src="@{/images/logo.png}">
+    </div>
+
+    <div class="container">
+      <p th:if="${loginError}" class="error">Wrong user or password</p>
+      <form th:action="@{/auth}" method="post">
+        <label for="username">Username</label>:
+        <input type="text" placeholder="johnsmith@example.com" id="username" name="username" autofocus="autofocus" /> <br />
+
+        <label for="password">Password</label>:
+        <input type="password" id="password" name="password" placeholder="**********"/> <br />
+
+        <input type="submit" value="Log in"/>
+      </form>
+      <div class="container unauthenticated">
+        Login With GitHub: <a href="/oauth2/authorization/github">click here</a>
+      </div>
+      <button><h3 th:href="@{/register}"> Register Now </h3></button>
+      <h2 th:href="@{/index}" method="get"><button>go here</button></h2>
+    </div>
+  </div>
+  <div class="container-bottom" style="background-color:#f1f1f1">
+  </div>
+</body>
+</html>

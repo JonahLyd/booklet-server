@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Booklets</title>
+</head>
+
+<body>
+<div class="container authenticated">
+  <div class="searchBar">
+    <input type="text" id="searchBar" name="searchbar" placeholder="Find a booklet by its name..." onkeyup="searchBooklet()">
+    <button onclick="">Search</button>
+  </div>
+  <div id="bookletDisplay">
+    <h3>Recently Viewed:</h3>
+
+    <li><a th:href="@{'${filePath1}'}" th:text="${fileName1}"></a></li>
+    <br><br><br>
+
+    <li><a th:href="@{'${filePath2}'}" th:text="${fileName2}"></a></li>
+    <br><br><br>
+
+    <li><a th:href="@{'${filePath3}'}" th:text="${fileName3}"></a></li>
+    <br><br><br>
+
+    <li><a th:href="@{'${filePath4}'}" th:text="${fileName4}"></a></li>
+  </div>
+  <div>
+    <button class="btn btn-primary" id="logout" th:action="@{/logout}">Logout</button>
+  </div>
+</div>
+</body>
+</html>
