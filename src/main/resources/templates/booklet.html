@@ -11,14 +11,14 @@
         location.href = "Login.html";
     };
   </script>
-  <link rel="stylesheet" type="text/css" media="all" href="../static/assets/css/booklet.css" th:href="@{/assets/css/booklet.css}"/>
+  <link rel="stylesheet" type="text/css" media="all" href="../static/css/booklet.css" th:href="@{/css/booklet.css}"/>
 </head>
 
 <body>
 <div>
-  <img id="logo" src="../static/assets/images/tiny.jpg" alt="Logo">
+  <img id="logo" th:src="@{/images/tiny.jpg}" src="../static/images/tiny.jpg" alt="Logo">
   <h1>View A Booklet</h1>
-  <img id="avatar" src="../static/assets/images/pfp.jpg" alt="Logo">
+  <img id="avatar" th:src="@{/images/pfp.jpg}" src="../static/images/pfp.jpg" alt="PFP">
 </div>
 <div class="searchBar">
   <input type="text" id="searchBar" name="searchbar" placeholder="Find a booklet by its name..." onkeyup="searchBooklet()">
@@ -29,7 +29,8 @@
 
   <div>
 
-    <embed th:src="../../../../../files/${level}/${fileName}" class="displayItem"/>
+    <embed th:src="${path}" class="displayItem"/>
+    <p th:text="${path}">p</p>
     Preview a single PDF document relatively full screen
 
   </div>
