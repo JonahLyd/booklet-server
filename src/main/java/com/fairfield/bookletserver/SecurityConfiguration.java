@@ -23,8 +23,8 @@ public class SecurityConfiguration  {
     http
         .authorizeHttpRequests(a -> a
             .requestMatchers("/login", "/error", "/webjars/**").permitAll()
-            .anyRequest().authenticated()
             .requestMatchers("/index", "/").authenticated()
+            .anyRequest().authenticated()
         )
         .exceptionHandling(e -> e
             .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))

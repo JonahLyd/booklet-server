@@ -1,6 +1,5 @@
 package com.fairfield.bookletserver.controller;
 
-import com.fairfield.bookletserver.entity.User;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
