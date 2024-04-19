@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BookletController {
-  public static final String CONSTANT_BOOKLET_PATH = "/files/level%d/%s";
+  public static final String CONSTANT_BOOKLET_PATH = "../files/level%d/%s";
 
   @Autowired
   BookletRepository bookletRepository;
@@ -20,6 +20,8 @@ public class BookletController {
     Booklet booklet = bookletRepository.getBookletByName(fileName);
     model.addAttribute("path",
         String.format(CONSTANT_BOOKLET_PATH, booklet.getLevelId(), booklet.getFileName()));
+    model.addAttribute("this", "../files/this.pdf");
     return "booklet";
   }
+
 }

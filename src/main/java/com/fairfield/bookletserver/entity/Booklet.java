@@ -9,6 +9,10 @@ public class Booklet {
   private Date created;
   private Date updated;
 
+  public Booklet() {
+
+  }
+
   private Booklet(Builder builder) {
     setId(builder.id);
     setLevelId(builder.levelId);

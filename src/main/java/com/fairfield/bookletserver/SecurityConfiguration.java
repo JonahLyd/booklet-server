@@ -21,62 +21,73 @@ public class SecurityConfiguration  {
 
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
-    return (web) -> web.ignoring().requestMatchers("/css/**", "/javascript/**", "/files/**", "/images/**");
+    return (web) -> web
+        .ignoring()
+        .requestMatchers(
+            "/css/**",
+            "/javascript/**",
+            "/files/level1/**",
+            "/files/level2/**",
+            "/files/**",
+            "/images/**"
+        );
   }
 
-//  @Bean
-//  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//    http
-//        .authorizeHttpRequests(a -> a
-//            .requestMatchers("/login", "/error", "/webjars/**").permitAll()
-//            .requestMatchers("/index", "/").authenticated()
-//            .anyRequest().authenticated()
-//        )
-//        .authenticationManager()
-//        .exceptionHandling(e -> e
-//            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-//        )
-//        .formLogin(login -> login
-//            .loginPage("/login")
-//            .permitAll()
-//            .successForwardUrl("/")
-//        )
-//        .oauth2Login((oauth2Login) -> oauth2Login
-//            .userInfoEndpoint((userInfo) -> userInfo
-//                .userAuthoritiesMapper(grantedAuthoritiesMapper())
-//            )
-//        )
-//        .logout(logout -> logout
-//            .logoutSuccessUrl("/login")
-//            .permitAll()
-//        )
-//        .csrf(csrf -> csrf
-//            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//        );
-//    return http.build();
-//  }
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(a -> a
+            .requestMatchers("/login", "/error", "/webjars/**").permitAll()
+            .requestMatchers("/index", "/").authenticated()
+            .anyRequest().authenticated()
+        )
+        .exceptionHandling(e -> e
+            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+        )
+        .formLogin(login -> login
+            .loginPage("/login")
+            .permitAll()
+            .successForwardUrl("/")
+        )
+        .oauth2Login((oauth2Login) -> oauth2Login
+            .userInfoEndpoint((userInfo) -> userInfo
+                .userAuthoritiesMapper(grantedAuthoritiesMapper())
+            )
+            .loginPage("/login")
+        )
+        .logout(logout -> logout
+            .logoutSuccessUrl("/logout")
+            .clearAuthentication(true)
+            .invalidateHttpSession(true)
+            .permitAll()
+        )
+        .csrf(csrf -> csrf
+            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        );
+    return http.build();
+  }
 
-//  private GrantedAuthoritiesMapper grantedAuthoritiesMapper() {
-//    return (authorities) -> {
-//      Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-//
-//      authorities.forEach((authority) -> {
-//        GrantedAuthority mappedAuthority;
-//
-//        if (authority instanceof OidcUserAuthority userAuthority) {
-//          mappedAuthority = new OidcUserAuthority(
-//              "OIDC_USER", userAuthority.getIdToken(), userAuthority.getUserInfo());
-//        } else if (authority instanceof OAuth2UserAuthority userAuthority) {
-//          mappedAuthority = new OAuth2UserAuthority(
-//              "OAUTH2_USER", userAuthority.getAttributes());
-//        } else {
-//          mappedAuthority = authority;
-//        }
-//
-//        mappedAuthorities.add(mappedAuthority);
-//      });
-//
-//      return mappedAuthorities;
-//    };
-//  }
+  private GrantedAuthoritiesMapper grantedAuthoritiesMapper() {
+    return (authorities) -> {
+      Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
+
+      authorities.forEach((authority) -> {
+        GrantedAuthority mappedAuthority;
+
+        if (authority instanceof OidcUserAuthority userAuthority) {
+          mappedAuthority = new OidcUserAuthority(
+              "OIDC_USER", userAuthority.getIdToken(), userAuthority.getUserInfo());
+        } else if (authority instanceof OAuth2UserAuthority userAuthority) {
+          mappedAuthority = new OAuth2UserAuthority(
+              "OAUTH2_USER", userAuthority.getAttributes());
+        } else {
+          mappedAuthority = authority;
+        }
+
+        mappedAuthorities.add(mappedAuthority);
+      });
+
+      return mappedAuthorities;
+    };
+  }
 }

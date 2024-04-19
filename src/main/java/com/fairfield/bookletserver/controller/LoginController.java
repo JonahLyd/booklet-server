@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Component
 @Controller
 public class LoginController {
-  @GetMapping("/login")
+  @GetMapping(value = {"/login"})
   public String getLogin() {
     return "login";
   }
 
   @GetMapping("/logout")
   public String logout() {
-    return "login";
+    return "logout";
   }
 
   @PostMapping("/login")
