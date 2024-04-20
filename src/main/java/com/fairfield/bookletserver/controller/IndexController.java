@@ -24,7 +24,7 @@ public class IndexController {
     for (Booklet booklet : recentBooklets) {
       String name = "fileName" + index;
       String path = "filePath" + index;
-      model.addAttribute(name, booklet.getFileName());
+      model.addAttribute(name, booklet.getFileName().replace(".png", ".pdf"));
       model.addAttribute(path, String.format(CONSTANT_PATH_TO_BOOKLET, booklet.getFileName(), booklet.getLevelId()));
       index += 1;
     }

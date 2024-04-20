@@ -28,7 +28,7 @@
     <li><a th:href="${filePath4}" th:text="${fileName4}"></a></li>
   </div>
   <div id="bookletDisplay2" th:if="${isSearch}">
-    <li th:each="l : ${list}" th:field="${l}"><a th:href="${l.pathToFile}" th:text="${l.fileName}"></a></li>
+    <li th:each="l : ${list}" th:field="${l}"><a th:href="${l.pathToFile}" th:text="${l.fileName.replace('.png','.pdf')}"></a></li>
   </div>
 </body>
 </html>
