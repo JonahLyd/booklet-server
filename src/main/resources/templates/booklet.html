@@ -21,10 +21,7 @@
   </div>
   <div id="stockCarousel">
     <div>
-      <embed th:src="@{../files/this.pdf}" class="displayItem"/>
-      <embed th:src="${this}" class="displayItem"/>
-      <p th:text="${path}">p</p>
-      Preview a single PDF document relatively full screen
+      <embed th:src="${path}" class="displayItem"/>
     </div>
   </div>
 </body>
