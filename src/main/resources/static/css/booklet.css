@@ -58,7 +58,7 @@ button:hover {
 
 .bookletDisplay {
   display: grid;
-  width: vw;
+  width: 85vw;
   height: 120vh;
   background: darkcyan;
 }
