@@ -28,6 +28,7 @@ public class IndexController {
       model.addAttribute(path, String.format(CONSTANT_PATH_TO_BOOKLET, booklet.getFileName(), booklet.getLevelId()));
       index += 1;
     }
+    model.addAttribute("previous", "lorem ipsum");
     model.addAttribute("isNotSearch", true);
     model.addAttribute("isSearch", false);
     return "index";
@@ -41,6 +42,7 @@ public class IndexController {
     } else {
       list = bookletRepository.getAllBookletPaths();
     }
+    model.addAttribute("previous", keyword);
     model.addAttribute("list", list);
     model.addAttribute("isNotSearch", false);
     model.addAttribute("isSearch", true);

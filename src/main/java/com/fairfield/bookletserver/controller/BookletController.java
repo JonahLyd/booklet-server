@@ -20,7 +20,7 @@ public class BookletController {
     Booklet booklet = bookletRepository.getBookletByName(fileName);
     model.addAttribute("path",
         String.format(CONSTANT_BOOKLET_PATH, booklet.getLevelId(), booklet.getFileName()));
-    model.addAttribute("this", "../files/this.pdf");
+    model.addAttribute("previous", booklet.getFileName());
     return "booklet";
   }
 

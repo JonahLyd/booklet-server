@@ -3,20 +3,24 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Booklet Viewer</title>
-  <link rel="stylesheet" type="text/css" media="all" href="../static/css/booklet.css" th:href="@{/css/booklet.css}"/>
+  <link rel="stylesheet" href="../static/css/index.css" th:href="@{/css/index.css}">
 </head>
-
-<body>
-  <div>
-    <img id="logo" th:src="@{/images/tiny.jpg}" src="../static/images/tiny.jpg" alt="Logo">
-    <h1>View A Booklet</h1>
-    <img id="avatar" th:src="@{/images/pfp.jpg}" src="../static/images/pfp.jpg" alt="PFP">
-  </div>
+<body class="booklet">
+  <header>
+    <img id="logo" th:src="@{/images/fairLogo.png}" src="../static/images/fairLogo.png" alt="Logo">
+    <h1>Fairfield U - Booklet System<br>View A Booklet</h1>
+    <form method="get" th:action="@{/logout}">
+      <button id="logout" type="submit" th:src="@{/images/pfp.jpg}" data-button="submit">
+        <img id="avatar" th:src="@{/images/pfp.jpg}" src="../static/images/pfp.jpg" alt="default profile picture"/>
+      </button>
+    </form>
+  </header>
   <div class="searchBar">
     <form method="get" th:action="@{/search}">
-      <input name="keyword" placeholder="Find by Level ID and/or Booklet Name" size="50" th:value="${keyword}" type="text">
-      <button class="btn btn-info" type="submit">Search</button>
-      <button class="btn btn-info" type="submit">Reset</button>
+      <label for="keyword">Find by Level ID or Booklet Name</label>
+      <input name="keyword" id="keyword" th:placeholder="${#strings.isEmpty(previous)} ? 'lorem ipsum' : ${previous}" size="50" th:value="${keyword}" type="text">
+      <button class="btn btn-info" type="submit" data-button="search">Search</button>
+      <button class="btn btn-info" type="submit" data-button="reset">Reset</button>
     </form>
   </div>
   <div id="stockCarousel">
@@ -24,5 +28,8 @@
       <embed th:src="${path}" class="displayItem"/>
     </div>
   </div>
+  <footer>
+    <small>&copy;2024 Fairfied University</small>
+  </footer>
 </body>
 </html>

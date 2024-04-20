@@ -3,32 +3,47 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Booklets</title>
+  <link rel="stylesheet" href="../static/css/index.css" th:href="@{/css/index.css}">
 </head>
 
 <body>
+<header>
+  <h1>Fairfield U - Booklet System</h1>
+</header>
+<!--  <header>-->
+<!--    <img id="logo" th:src="@{/images/fairLogo.png}" src="../static/images/fairLogo.png" alt="Logo">-->
+<!--    <h1>Fairfield U - Booklet System<br></h1>-->
+<!--    <form method="get" th:action="@{/logout}">-->
+<!--      <button id="logout" type="submit" th:src="@{/images/pfp.jpg}" data-button="submit">-->
+<!--        <img id="avatar" th:src="@{/images/pfp.jpg}" src="../static/images/pfp.jpg" alt="default profile picture"/>-->
+<!--      </button>-->
+<!--    </form>-->
+<!--  </header>-->
   <div class="searchBar">
-  <form method="get" th:action="@{/search}">
-    <input name="keyword" placeholder="Find by Level ID and/or Booklet Name" size="50" th:value="${keyword}" type="text">
-    <button class="btn btn-info" type="submit">Search</button>
-    <button class="btn btn-info" type="submit">Reset</button>
-  </form>
+    <form method="get" th:action="@{/search}">
+      <label for="keyword">Find by Level ID or Booklet Name</label>
+      <input name="keyword" id="keyword" th:placeholder="${#strings.isEmpty(previous)} ? 'lorem ipsum' : ${previous}" size="50" th:value="${keyword}" type="text">
+      <button class="btn btn-info" type="submit" data-button="search">Search</button>
+      <button class="btn btn-info" type="submit" data-button="reset">Reset</button>
+    </form>
   </div>
-  <div id="bookletDisplay" th:if="${isNotSearch}">
+  <section class="bookletDisplay" th:if="${isNotSearch}">
     <h3>Recently Viewed:</h3>
-
-    <li><a th:href="${filePath1}" th:text="${fileName1}"></a></li>
-    <br><br><br>
-
-    <li><a th:href="${filePath2}" th:text="${fileName2}"></a></li>
-    <br><br><br>
-
-    <li><a th:href="${filePath3}" th:text="${fileName3}"></a></li>
-    <br><br><br>
-
-    <li><a th:href="${filePath4}" th:text="${fileName4}"></a></li>
+    <ol>
+      <li><a th:href="${filePath1}" th:text="${fileName1}"></a></li>
+      <li><a th:href="${filePath2}" th:text="${fileName2}"></a></li>
+      <li><a th:href="${filePath3}" th:text="${fileName3}"></a></li>
+      <li><a th:href="${filePath4}" th:text="${fileName4}"></a></li>
+    </ol>
+  </section>
+  <div class="bookletDisplay" th:if="${isSearch}">
+    <h3>Search Results:</h3>
+    <ul>
+      <li th:each="l : ${list}" th:field="${l}"><a th:href="${l.pathToFile}" th:text="${l.fileName.replace('.png','.pdf')}"></a></li>
+    </ul>
   </div>
-  <div id="bookletDisplay2" th:if="${isSearch}">
-    <li th:each="l : ${list}" th:field="${l}"><a th:href="${l.pathToFile}" th:text="${l.fileName.replace('.png','.pdf')}"></a></li>
-  </div>
+  <footer>
+    <small>&copy;2024 Fairfield University</small>
+  </footer>
 </body>
 </html>

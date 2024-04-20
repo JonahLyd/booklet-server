@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Booklets</title>
+</head>
+
+<body>
+  <div class="searchBar">
+  <form method="get" th:action="@{/search}">
+    <input name="keyword" placeholder="Find by Level ID or Booklet Name" size="50" th:value="${keyword}" type="text">
+    <button class="btn btn-info" type="submit">Search</button>
+    <button class="btn btn-info" type="submit">Reset</button>
+  </form>
+  </div>
+  <div id="bookletDisplay" th:if="${isNotSearch}">
+    <h3>Recently Viewed:</h3>
+
+    <li><a th:href="${filePath1}" th:text="${fileName1}"></a></li>
+    <br><br><br>
+
+    <li><a th:href="${filePath2}" th:text="${fileName2}"></a></li>
+    <br><br><br>
+
+    <li><a th:href="${filePath3}" th:text="${fileName3}"></a></li>
+    <br><br><br>
+
+    <li><a th:href="${filePath4}" th:text="${fileName4}"></a></li>
+  </div>
+  <div id="bookletDisplay2" th:if="${isSearch}">
+    <li th:each="l : ${list}" th:field="${l}"><a th:href="${l.pathToFile}" th:text="${l.fileName.replace('.png','.pdf')}"></a></li>
+  </div>
+</body>
+</html>
