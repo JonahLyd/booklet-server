@@ -58,13 +58,13 @@ button:hover {
 
 .bookletDisplay {
   display: grid;
-  width: 85vw;
-  height: 120vh;
+  width: 50vw;
+  height: 100vh;
   background: darkcyan;
 }
 
 .displayItem {
-  width: 85vw;
-  height: 130vh;
+  width: 58vw;
+  height: 110vh;
   /*border: 1px solid red;*/
 }
