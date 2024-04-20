@@ -7,7 +7,11 @@
 </head>
 <body class="booklet">
   <header>
-    <img id="logo" th:src="@{/images/fairLogo.png}" src="../static/images/fairLogo.png" alt="Logo">
+    <form method="get" th:action="@{/index}">
+      <button id="toIndex" type="submit" th:src="@{/images/pfp.jpg}" data-button="submit">
+        <img id="logo" th:src="@{/images/fairLogo.png}" src="../static/images/fairLogo.png" alt="Logo">
+      </button>
+    </form>
     <h1>Fairfield U - Booklet System<br>View A Booklet</h1>
     <form method="get" th:action="@{/logout}">
       <button id="logout" type="submit" th:src="@{/images/pfp.jpg}" data-button="submit">
