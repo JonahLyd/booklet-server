@@ -2,21 +2,24 @@ package com.fairfield.bookletserver;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
-import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.ForwardLogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
-import java.util.HashSet;
-import java.util.Set;
-
-//@Configuration
+@Configuration
+@EnableWebSecurity
 public class SecurityConfiguration  {
 
   @Bean
@@ -35,59 +38,63 @@ public class SecurityConfiguration  {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-        .authorizeHttpRequests(a -> a
-            .requestMatchers("/login", "/error", "/webjars/**").permitAll()
-            .requestMatchers("/index", "/").authenticated()
-            .anyRequest().authenticated()
-        )
-        .exceptionHandling(e -> e
-            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-        )
-        .formLogin(login -> login
-            .loginPage("/login")
+    http.csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+        authorizationManagerRequestMatcherRegistry
+            .requestMatchers("/admin/**")
+            .hasRole("ADMIN")
+            .requestMatchers("/login*")
             .permitAll()
-            .successForwardUrl("/")
+            .anyRequest()
+            .authenticated()
+    )
+        .formLogin(httpSecurityFormLoginConfigurer ->
+            httpSecurityFormLoginConfigurer
+                .loginPage("/login")
+                .loginProcessingUrl("/authenticate")
+                .defaultSuccessUrl("/index", true)
+                .failureUrl("/login?error=true")
+                .failureHandler(authenticationFailureHandler())
         )
-        .oauth2Login((oauth2Login) -> oauth2Login
-            .userInfoEndpoint((userInfo) -> userInfo
-                .userAuthoritiesMapper(grantedAuthoritiesMapper())
-            )
-            .loginPage("/login")
-        )
-        .logout(logout -> logout
-            .logoutSuccessUrl("/logout")
-            .clearAuthentication(true)
-            .invalidateHttpSession(true)
-            .permitAll()
-        )
-        .csrf(csrf -> csrf
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-        );
+        .logout(httpSecurityLogoutConfigurer ->
+            httpSecurityLogoutConfigurer.logoutUrl("/logout")
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler(logoutSuccessHandler()));
     return http.build();
   }
 
-  private GrantedAuthoritiesMapper grantedAuthoritiesMapper() {
-    return (authorities) -> {
-      Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
+  @Bean
+  public InMemoryUserDetailsManager userDetailsService() {
+    UserDetails admin1 = User
+        .withUsername("jonah.lydon@student.fairfield.edu")
+        .password(passwordEncoder().encode("pwd"))
+        .roles("ADMIN")
+        .build();
+    UserDetails user1 = User
+        .withUsername("mateo.davalos@student.fairfield.edu")
+        .password(passwordEncoder().encode("pwd"))
+        .roles("USER")
+        .build();
+    UserDetails user2 = User
+        .withUsername("habibul.huq@student.fairfield.edu")
+        .password(passwordEncoder().encode("pwd"))
+        .roles("USER")
+        .build();
+    return new InMemoryUserDetailsManager(user1, user2, admin1);
+  }
 
-      authorities.forEach((authority) -> {
-        GrantedAuthority mappedAuthority;
+  @Bean
+  public LogoutSuccessHandler logoutSuccessHandler() {
+    return new ForwardLogoutSuccessHandler("/login");
+  }
 
-        if (authority instanceof OidcUserAuthority userAuthority) {
-          mappedAuthority = new OidcUserAuthority(
-              "OIDC_USER", userAuthority.getIdToken(), userAuthority.getUserInfo());
-        } else if (authority instanceof OAuth2UserAuthority userAuthority) {
-          mappedAuthority = new OAuth2UserAuthority(
-              "OAUTH2_USER", userAuthority.getAttributes());
-        } else {
-          mappedAuthority = authority;
-        }
+  @Bean
+  public AuthenticationFailureHandler authenticationFailureHandler() {
+    return new AuthenticationEntryPointFailureHandler(new BasicAuthenticationEntryPoint());
+  }
 
-        mappedAuthorities.add(mappedAuthority);
-      });
-
-      return mappedAuthorities;
-    };
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 }

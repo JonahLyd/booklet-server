@@ -3,34 +3,29 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Sign In</title>
-  <link rel="stylesheet" type="text/css" media="all" href="../static/css/login.css" th:href="@{/css/login.css}"/>
+  <link rel="stylesheet" href="../static/css/login.css" th:href="@{/css/login.css}"/>
 </head>
 <body>
   <div class="blocked">
     <div class="imgcontainer">
-      <img src="../static/images/logo.jpg" alt="Avatar" class="avatar"
-           th:src="@{/images/logo.png}">
+      <img src="../static/images/fairLogo.png" alt="Fairfield F logo" id="avatar" th:src="@{/images/fairLogo.png}">
     </div>
 
-    <div class="container">
-      <p th:if="${loginError}" class="error">Wrong user or password</p>
-      <form th:action="@{/auth}" method="post">
+    <div class="login">
+      <p th:if="${errorMessage} != null" class="error" th:text="${errorMessage}">Wrong user or password</p>
+      <form th:action="@{/authenticate}" method="post">
         <label for="username">Username</label>:
         <input type="text" placeholder="johnsmith@example.com" id="username" name="username" autofocus="autofocus" /> <br />
 
         <label for="password">Password</label>:
         <input type="password" id="password" name="password" placeholder="**********"/> <br />
 
-        <input type="submit" value="Log in"/>
+        <input type="submit" value="Log in" id="loginButton" data-button="loginButton"/>
       </form>
-      <div class="container unauthenticated">
-        Login With GitHub: <a href="/oauth2/authorization/github">click here</a>
-      </div>
-      <button><h3 th:href="@{/register}"> Register Now </h3></button>
-      <h2 th:href="@{/index}" method="get"><button>go here</button></h2>
     </div>
   </div>
   <div class="container-bottom" style="background-color:#f1f1f1">
+    <footer th:replace="~{fragments/template-footer.html :: footer}"></footer>
   </div>
 </body>
 </html>

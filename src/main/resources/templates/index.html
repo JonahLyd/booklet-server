@@ -7,26 +7,7 @@
 </head>
 
 <body>
-<header>
-  <h1>Fairfield U - Booklet System</h1>
-</header>
-<!--  <header>-->
-<!--    <img id="logo" th:src="@{/images/fairLogo.png}" src="../static/images/fairLogo.png" alt="Logo">-->
-<!--    <h1>Fairfield U - Booklet System<br></h1>-->
-<!--    <form method="get" th:action="@{/logout}">-->
-<!--      <button id="logout" type="submit" th:src="@{/images/pfp.jpg}" data-button="submit">-->
-<!--        <img id="avatar" th:src="@{/images/pfp.jpg}" src="../static/images/pfp.jpg" alt="default profile picture"/>-->
-<!--      </button>-->
-<!--    </form>-->
-<!--  </header>-->
-  <div class="searchBar">
-    <form method="get" th:action="@{/search}">
-      <label for="keyword">Find by Level ID or Booklet Name</label>
-      <input name="keyword" id="keyword" th:placeholder="${#strings.isEmpty(previous)} ? 'lorem ipsum' : ${previous}" size="50" th:value="${keyword}" type="text">
-      <button class="btn btn-info" type="submit" data-button="search">Search</button>
-      <button class="btn btn-info" type="submit" data-button="reset">Reset</button>
-    </form>
-  </div>
+<header th:replace="~{fragments/template-header.html :: header}"></header>
   <section class="bookletDisplay" th:if="${isNotSearch}">
     <h3>Recently Viewed:</h3>
     <ol>
@@ -42,8 +23,6 @@
       <li th:each="l : ${list}" th:field="${l}"><a th:href="${l.pathToFile}" th:text="${l.fileName.replace('.png','.pdf')}"></a></li>
     </ul>
   </div>
-  <footer>
-    <small>&copy;2024 Fairfield University</small>
-  </footer>
+<footer th:replace="~{fragments/template-footer.html :: footer}"></footer>
 </body>
 </html>

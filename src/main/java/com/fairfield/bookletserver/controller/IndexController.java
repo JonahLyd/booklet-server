@@ -3,6 +3,7 @@ package com.fairfield.bookletserver.controller;
 import com.fairfield.bookletserver.entity.Booklet;
 import com.fairfield.bookletserver.entity.BookletSearchResponse;
 import com.fairfield.bookletserver.repository.BookletRepository;
+import com.fairfield.bookletserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,14 +17,17 @@ public class IndexController {
   public static final String CONSTANT_PATH_TO_BOOKLET = "/booklet?fileName=%s&level=%d";
   @Autowired
   BookletRepository bookletRepository;
+  @Autowired
+  UserRepository userRepository;
 
   @GetMapping(value = {"/", "/index"})
   public String getIndex(Model model) {
-    List<Booklet> recentBooklets  = bookletRepository.getRecentBooklets();
-    int index = 1;
-    for (Booklet booklet : recentBooklets) {
-      String name = "fileName" + index;
-      String path = "filePath" + index;
+    var recentBooklets  = userRepository.getRecentBookletIds();
+    var index = 1;
+    for (Long bookletId : recentBooklets) {
+      var booklet = bookletRepository.getBookletById(bookletId);
+      var name = "fileName" + index;
+      var path = "filePath" + index;
       model.addAttribute(name, booklet.getFileName().replace(".png", ".pdf"));
       model.addAttribute(path, String.format(CONSTANT_PATH_TO_BOOKLET, booklet.getFileName(), booklet.getLevelId()));
       index += 1;
@@ -31,6 +35,7 @@ public class IndexController {
     model.addAttribute("previous", "lorem ipsum");
     model.addAttribute("isNotSearch", true);
     model.addAttribute("isSearch", false);
+    model.addAttribute("headerText", "Search for a Booklet");
     return "index";
   }
 
@@ -46,6 +51,7 @@ public class IndexController {
     model.addAttribute("list", list);
     model.addAttribute("isNotSearch", false);
     model.addAttribute("isSearch", true);
+    model.addAttribute("headerText", "");
     return "index";
   }
 }

@@ -11,26 +11,42 @@ body {
   color: #404040;
   line-height: 1.8em;
 }
+
+.toIndex, .toUser {
+  padding-top: .5%;
+}
+
+.toLogout {
+  padding-top: 1%;
+  padding-right: .5%;
+}
+
+
+.toIndex {
+  padding-left: .5%;
+  float: left;
+}
+
+.toLogout, .toUser {
+  float: right;
+}
+
 header {
   width: 100%;
+}
+
+#nonSearch {
   background: var(--fairfield-red);
   border-bottom: solid 1px grey;
+  width: 100%;
 }
+
 h1 {
   padding: 0.5em 0;
   margin: 0;
   color: white;
   text-align: center;
 }
-.booklet header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing:  border-box;
-  padding:  0 1em;
-}
-
 
 button:hover {
   cursor: pointer;
@@ -38,6 +54,7 @@ button:hover {
 }
 
 .searchBar {
+  background: #d0d0d0;
   width: 50%;
   text-align: center;
   margin: 1em auto;
@@ -70,10 +87,21 @@ button:hover {
   width: auto;
 }
 
-#avatar {
-  height: 30px;
+#logout {
+  height: 20px;
   width: auto;
   border-radius: 50%;
+  horizontal-align: right;
+}
+
+#logout:hover {
+  cursor: pointer;
+}
+
+#avatar {
+  border-radius: 50%;
+  height: 30px;
+  width: auto;
   horizontal-align: right;
 }
 

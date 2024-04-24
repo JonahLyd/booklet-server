@@ -2,6 +2,7 @@ package com.fairfield.bookletserver.controller;
 
 import com.fairfield.bookletserver.entity.Booklet;
 import com.fairfield.bookletserver.repository.BookletRepository;
+import com.fairfield.bookletserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,8 @@ public class BookletController {
 
   @Autowired
   BookletRepository bookletRepository;
+  @Autowired
+  UserRepository userRepository;
 
   @GetMapping("/booklet")
   public String getBookletPage(@RequestParam String fileName, Model model) {
@@ -21,6 +24,9 @@ public class BookletController {
     model.addAttribute("path",
         String.format(CONSTANT_BOOKLET_PATH, booklet.getLevelId(), booklet.getFileName()));
     model.addAttribute("previous", booklet.getFileName());
+    model.addAttribute("headerText", "View A Booklet");
+    userRepository.updateRecentBooklet(booklet.getId());
+
     return "booklet";
   }
 

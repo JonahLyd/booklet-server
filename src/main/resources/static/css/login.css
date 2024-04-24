@@ -42,15 +42,20 @@ button:hover {
   margin: auto;
 }
 
-/* Avatar image */
-img.avatar {
-  width: 80%;
-  border-radius: 50%;
+#avatar {
+  width: 30%;
+  height: 30%;
 }
 
 /* Add padding to containers */
-.container {
+.login {
   padding: 16px;
+}
+
+.remember {
+  padding-left: 1%;
+  text-align: right;
+
 }
 
 .container-bottom {
@@ -61,7 +66,7 @@ img.avatar {
 
 }
 
-.foot {
+footer {
   position: relative;
   width: 100%;
   text-align: center;

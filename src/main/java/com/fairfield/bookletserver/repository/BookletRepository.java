@@ -8,18 +8,14 @@ import org.springframework.stereotype.Component;
 import java.sql.Date;
 import java.util.*;
 
-import static com.fairfield.bookletserver.controller.BookletController.CONSTANT_BOOKLET_PATH;
 import static com.fairfield.bookletserver.controller.IndexController.CONSTANT_PATH_TO_BOOKLET;
 
 @Component
 public class BookletRepository {
   private Map<Long, Booklet> idToBooklet;
   private Map<String, Booklet> nameToBooklet;
-  private Stack<Booklet> recents;
-
   @Autowired
   public void init() {
-    recents = new Stack<>();
     idToBooklet = new HashMap<>();
     nameToBooklet = new HashMap<>();
     var book1 = Booklet.newBuilder()
@@ -76,10 +72,6 @@ public class BookletRepository {
     nameToBooklet.put(book4.getFileName(), book4);
     nameToBooklet.put(book5.getFileName(), book5);
     nameToBooklet.put(book6.getFileName(), book6);
-    recents.push(book1);
-    recents.push(book2);
-    recents.push(book5);
-    recents.push(book4);
   }
 
   public void insertBooklet(Booklet booklet) {
@@ -87,25 +79,15 @@ public class BookletRepository {
   }
 
   public Booklet getBookletById(Long id) {
-    recents.pop();
-    recents.push(idToBooklet.get(id));
     return idToBooklet.get(id);
   }
 
   public Booklet getBookletByName(String fileName) {
-    recents.pop();
-    recents.push(nameToBooklet.get(fileName));
     return nameToBooklet.get(fileName);
   }
 
   public String getBookletFileNameById(Long id) {
-    recents.pop();
-    recents.push(idToBooklet.get(id));
     return idToBooklet.get(id).getFileName();
-  }
-
-  public List<Booklet> getRecentBooklets() {
-    return recents.stream().toList();
   }
 
   public List<BookletSearchResponse> getAllBookletPaths() {

@@ -1,7 +1,32 @@
-<header data-template="header" xmlns:th="http://www.w3.org/1999/xhtml">
-  <h1><img id="logo" alt="Logo" src="../../static/images/fairLogo.png" th:src="@{../../static/assets/images/fairLogo.png}" th:text="${model.currentPage"></h1>
-<!--  <img id="avatar"  alt="avatar" src="../../static/images/pfp.jpg" th:src="@{../../static/assets/images/pfp.jpg}">-->
-  <form method="get" th:action="@{/logout}">
-    <input type="submit" th:src="@{../../static/assets/images/pfp.jpg}">
-  </form>
+<header xmlns:th="http://www.w3.org/1999/xhtml">
+  <div id="nonSearch">
+    <form method="get" th:action="@{/index}" class="toIndex">
+      <button class="toIndex" type="submit" th:src="@{/images/pfp.jpg}" data-button="submit">
+        <img id="logo" th:src="@{/images/fairLogo.png}" src="../../static/images/fairLogo.png" alt="Fairfield 'F' Logo">
+      </button>
+    </form>
+    <form method="get" th:action="@{/logout}" class="toLogout">
+      <button class="toLogout" type="submit" th:src="@{/images/pfp.jpg}" data-button="submit">
+        <img id="logout" th:src="@{/images/logout.jpg}" src="../../static/images/logout.jpg" alt="logout image"/>
+      </button>
+    </form>
+    <form method="get" th:action="@{/user}" class="toUser">
+    <button class="toUser" type="submit" th:src="@{/images/pfp.jpg}" data-button="submit">
+      <img id="avatar" th:src="@{/images/pfp.jpg}" src="../../static/images/pfp.jpg" alt="default profile picture"/>
+    </button>
+    </form>
+    <h1>Fairfield U - Booklet System<br><p th:text="${headerText}"></p></h1>
+  </div>
+  <div class="searchBar">
+    <form method="get" th:action="@{/search}">
+      <label for="keyword">Find by Level ID or Booklet Name</label>
+      <input name="keyword" id="keyword"
+             th:placeholder="${#strings.isEmpty(previous)} ? 'lorem ipsum' : ${previous}"
+             size="50" th:value="${keyword}" type="text">
+      <button class="btn btn-info" type="submit" data-button="search">Search</button>
+      <button class="btn btn-info" type="submit" data-button="reset">Reset</button>
+    </form>
+  </div>
 </header>
+
+
