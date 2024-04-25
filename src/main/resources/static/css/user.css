@@ -70,23 +70,28 @@ button:hover {
   border:  solid 1px var(--fairfield-red);
 }
 
-.userCreationForm {
+.userCreationForm,
+.passwordEditForm {
   background: #d0d0d0;
   width: 50%;
   text-align: center;
   margin: 1em auto;
 }
 .userCreationForm label,
-.userCreationForm input {
+.userCreationForm input,
+.passwordEditForm label,
+.passwordEditForm input {
   width: 100%;
   display: block;
   box-sizing: border-box;
 }
-.userCreationForm label {
+.userCreationForm label,
+.passwordEditForm label {
   border-radius: 0.5em 0.5em 0 0;
   border:  solid 1px var(--fairfield-red);
 }
-.userCreationForm button {
+.userCreationForm button,
+.passwordEditForm button {
   float: left;
   display: inline-block;
   width: 49%;
@@ -95,7 +100,8 @@ button:hover {
   border-radius: 0 0 0 0.5em;
 }
 
-.userCreationForm button {
+.userCreationForm button,
+.passwordEditForm button {
   display: block;
   width: 100%;
 }

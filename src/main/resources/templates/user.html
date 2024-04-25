@@ -18,13 +18,23 @@
     </ul>
 </div>
 <form
+    class="passwordEditForm"
+    method="post"
+    th:action="@{/password}"
+    th:object="${user1}">
+    <h3>Change Your Password:</h3>
+    <label for="newPass">New Password</label><input name="pass" id="newPass" th:placeholder="'*******'" size="50" th:field="*{password}" type="password">
+    <label for="newPassConf">Confirm Password</label><input name="passConf" id="newPassConf" th:placeholder="'********'" size="50" th:field="*{passwordConf}" type="password">
+    <button class="btn btn-info" type="submit" data-button="submit">Submit</button>
+</form>
+<form
     th:if="${currentUser.levelId == 2}"
     class="userCreationForm"
     method="post"
     th:action="@{/register}"
     th:object="${user}">
     <h3>Register a New User:</h3>
-    <label for="level1" class="levelLabel">level 1</label><input name="level" id="level1" type="radio" value="1" data-button="level" th:field="*{levelId}"><br>
+    <label for="level1" class="levelLabel">level 1</label><input name="level" id="level1" type="radio" value="1" data-button="level" th:field="*{levelId}" ><br>
     <label for="level2" class="levelLabel">level 2</label><input name="level" id="level2" type="radio" value="2" data-button="level" th:field="*{levelId}">
     <label for="first">First Name</label><input name="first" id="first" th:placeholder="'John'" size="50" th:field="*{firstName}" type="text">
     <label for="last">Last Name</label><input name="last" id="last" th:placeholder="'Smith'" size="50" th:field="*{lastName}" type="text">

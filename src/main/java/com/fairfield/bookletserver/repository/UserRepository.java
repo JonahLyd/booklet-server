@@ -106,6 +106,14 @@ public class UserRepository {
     }
   }
 
+  public void updatePassword(User user) {
+    var currentUser = nameToUser.get(user.getUsername());
+    currentUser.setPassword(user.getPassword());
+    currentUser.setPasswordConf(user.getPasswordConf());
+    nameToUser.replace(currentUser.getName(), currentUser);
+    idToUser.replace(currentUser.getId(), currentUser);
+  }
+
   public Long getLastId() {
     return Collections.max(this.idToUser.keySet()) + 1L;
   }

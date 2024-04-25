@@ -97,6 +97,13 @@ public class SecurityConfiguration  {
     return service;
   }
 
+  public InMemoryUserDetailsManager updateUserPassword(com.fairfield.bookletserver.entity.User user) {
+    var service = userDetailsService();
+    service.updatePassword(service.loadUserByUsername(user.getUsername()), passwordEncoder().encode(user.getPassword()));
+
+    return service;
+  }
+
   @Bean
   public LogoutSuccessHandler logoutSuccessHandler() {
     return new ForwardLogoutSuccessHandler("/login");
