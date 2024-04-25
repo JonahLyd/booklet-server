@@ -23,7 +23,7 @@ public class LoginController {
   @GetMapping("/logout")
   public String logout() {
     SecurityContextHolder.clearContext();
-    return "logout";
+    return "login";
   }
 
   @PostMapping("/authenticate")

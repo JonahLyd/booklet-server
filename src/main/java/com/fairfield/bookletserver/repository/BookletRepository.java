@@ -79,7 +79,10 @@ public class BookletRepository {
   }
 
   public void insertBooklet(Booklet booklet) {
-    idToBooklet.put(booklet.getId(), booklet);
+    Long lastId = Collections.max(idToBooklet.keySet()) + 1L;
+    booklet.setId(lastId);
+    nameToBooklet.put(booklet.getFileName(), booklet);
+    idToBooklet.put(lastId, booklet);
   }
 
   public Booklet getBookletById(Long id) {

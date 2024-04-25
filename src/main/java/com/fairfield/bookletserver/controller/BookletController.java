@@ -14,6 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.Instant;
+import java.util.Date;
 
 @Controller
 public class BookletController {
@@ -52,17 +55,20 @@ public class BookletController {
         ||file.getOriginalFilename().isEmpty()) {
       return indexController.getIndex(model);
     }
-
+    bookletRepository.insertBooklet(Booklet.newBuilder()
+        .withLevelId(Long.valueOf(level))
+        .withFileName(file.getOriginalFilename())
+        .withCreated(Date.from(Instant.now()))
+        .withUpdated(Date.from(Instant.now()))
+        .build());
     try {
       var inputStream = file.getInputStream();
       var fileName = file.getOriginalFilename();
       switch(level) {
-        case "1" -> Files.copy(inputStream, this.root1.resolve(fileName));
-        case "2" -> Files.copy(inputStream, this.root2.resolve(fileName));
+        case "1" -> Files.copy(inputStream, this.root1.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+        case "2" -> Files.copy(inputStream, this.root2.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
       }
-
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    } catch (Exception ignored) {
     }
 
     return indexController.getIndex(model);

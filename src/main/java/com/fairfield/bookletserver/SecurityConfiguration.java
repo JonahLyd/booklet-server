@@ -47,7 +47,8 @@ public class SecurityConfiguration  {
             .permitAll()
             .anyRequest()
             .authenticated()
-    )
+        )
+        .userDetailsService(userDetailsService())
         .formLogin(httpSecurityFormLoginConfigurer ->
             httpSecurityFormLoginConfigurer
                 .loginPage("/login")
@@ -81,6 +82,19 @@ public class SecurityConfiguration  {
         .roles("USER")
         .build();
     return new InMemoryUserDetailsManager(user1, user2, admin1);
+  }
+
+  public InMemoryUserDetailsManager updateUserService(com.fairfield.bookletserver.entity.User user) {
+    var role = user.getLevelId() == 2L ? "ADMIN" : "USER";
+    UserDetails newUser = User
+        .withUsername(user.getUsername())
+        .password(passwordEncoder().encode(user.getPassword()))
+        .roles(role)
+        .build();
+    var service = userDetailsService();
+    service.createUser(newUser);
+
+    return service;
   }
 
   @Bean

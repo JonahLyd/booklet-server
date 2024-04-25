@@ -8,9 +8,31 @@
 
 <body>
 <header th:replace="~{fragments/template-header.html :: header}"></header>
-<h1 class="bodyText" th:text="'Hello ' + ${user.firstName}"></h1>
-<h1 class="bodyText" th:text="'Your E-Mail is ' + ${user.username}"></h1>
-<h1 class="bodyText" th:text="'Your Level is ' + ${user.levelId}"></h1>
+<h1 class="bodyText" th:text="'Hello ' + ${currentUser.firstName}"></h1>
+<h1 class="bodyText" th:text="'Your E-Mail is ' + ${currentUser.username}"></h1>
+<h1 class="bodyText" th:text="'Your Level is ' + ${currentUser.levelId}"></h1>
+<div class="userDisplay" th:if="${currentUser.levelId == 2}">
+    <h3>Current Registered Users:</h3>
+    <ul>
+        <li th:each="l : ${userList}" th:field="${l}"><p th:text="${l.firstName} + ':'"></p><p th:text="${l.username}"></p></li>
+    </ul>
+</div>
+<form
+    th:if="${currentUser.levelId == 2}"
+    class="userCreationForm"
+    method="post"
+    th:action="@{/register}"
+    th:object="${user}">
+    <h3>Register a New User:</h3>
+    <label for="level1" class="levelLabel">level 1</label><input name="level" id="level1" type="radio" value="1" data-button="level" th:field="*{levelId}"><br>
+    <label for="level2" class="levelLabel">level 2</label><input name="level" id="level2" type="radio" value="2" data-button="level" th:field="*{levelId}">
+    <label for="first">First Name</label><input name="first" id="first" th:placeholder="'John'" size="50" th:field="*{firstName}" type="text">
+    <label for="last">Last Name</label><input name="last" id="last" th:placeholder="'Smith'" size="50" th:field="*{lastName}" type="text">
+    <label for="email">E-Mail</label><input name="email" id="email" th:placeholder="'john.smith@gmail.com'" size="50" th:field="*{username}" type="email">
+    <label for="pass">Password</label><input name="pass" id="pass" th:placeholder="'*******'" size="50" th:field="*{password}" type="password">
+    <label for="passConf">Confirm Password</label><input name="passConf" id="passConf" th:placeholder="'********'" size="50" th:field="*{passwordConf}" type="password">
+    <button class="btn btn-info" type="submit" data-button="submit">Create</button>
+</form>
 <footer th:replace="~{fragments/template-footer.html :: footer}"></footer>
 </body>
 </html>

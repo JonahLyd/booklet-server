@@ -17,6 +17,7 @@ public class User implements Authentication {
   private boolean isAuthenticated;
   private Queue<Long> recentBookletIds;
 
+  public User() {}
   private User(Builder builder) {
     setId(builder.id);
     setLevelId(builder.levelId);

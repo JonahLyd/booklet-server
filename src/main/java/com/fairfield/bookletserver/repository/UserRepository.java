@@ -12,10 +12,12 @@ import java.util.*;
 @Component
 public class UserRepository {
   Map<String, User> nameToUser;
+  Map<Long, User> idToUser;
 
   @Autowired
   public void init() {
     nameToUser = new HashMap<>();
+    idToUser = new HashMap<>();
     Queue<Long> stockRecents = new LinkedList<>();
     stockRecents.add(1L);
     stockRecents.add(2L);
@@ -64,6 +66,7 @@ public class UserRepository {
   }
 
   public void insertUser(User user) {
+    idToUser.put(user.getId(), user);
     nameToUser.put(user.getUsername(), user);
   }
 
@@ -77,6 +80,10 @@ public class UserRepository {
       books.add(bookletId);
       user.setRecentBookletIds(books);
     }
+  }
+
+  public Collection<User> getAllUsers() {
+    return nameToUser.values();
   }
 
   public User getUserFromContext() {
@@ -97,6 +104,10 @@ public class UserRepository {
     } else {
       return null;
     }
+  }
+
+  public Long getLastId() {
+    return Collections.max(this.idToUser.keySet()) + 1L;
   }
 
   public Collection<Long> getRecentBookletIds() {
