@@ -8,7 +8,9 @@
 
 <body>
 <header th:replace="~{fragments/template-header.html :: header}"></header>
-<h1 th:text="'Hello ' + ${user.firstName}"></h1>
+<h1 class="bodyText" th:text="'Hello ' + ${user.firstName}"></h1>
+<h1 class="bodyText" th:text="'Your E-Mail is ' + ${user.username}"></h1>
+<h1 class="bodyText" th:text="'Your Level is ' + ${user.levelId}"></h1>
 <footer th:replace="~{fragments/template-footer.html :: footer}"></footer>
 </body>
 </html>

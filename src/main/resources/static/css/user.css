@@ -48,12 +48,17 @@ h1 {
   text-align: center;
 }
 
+.bodyText {
+  color: dark-grey;
+}
+
 button:hover {
   cursor: pointer;
   box-shadow: inset 0 0 0 50px rgba(0, 0, 0, 0.2);
 }
 
-.searchBar {
+.searchBar,
+.uploadForm {
   display: none;
 }
 
@@ -84,33 +89,6 @@ button:hover {
   cursor: pointer;
 }
 
-.wrapper {
-  position: relative;
-  width: 100vw;
-}
-
-.bookletDisplay {
-  width: 50%;
-  text-align: center;
-  margin: 1em auto;
-  border:  solid 1px var(--fairfield-red);
-  border-radius:  1em;
-  width: 50%;
-  text-align: center;
-  margin: 1em auto;
-}
-ol {
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-ol li {
-  border-bottom: solid 1px var(--fairfield-red);;
-}
-ol li:last-child {
-  border-bottom:  one;
-}
 footer {
    width: 100%;
    display: block;

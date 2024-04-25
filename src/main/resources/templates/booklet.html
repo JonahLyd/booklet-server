@@ -7,10 +7,11 @@
 </head>
 <body class="booklet">
 <header th:replace="~{fragments/template-header.html :: header}"></header>
-  <div id="bookletDisplay">
-    <div>
-      <embed th:src="${path}" class="displayItem"/>
-    </div>
+  <div th:if="${canView}" id="bookletDisplay">
+      <embed th:src="${path}" id="displayItem"/>
+  </div>
+  <div th:if="!${canView}" class="bookletDisplay">
+    <h1 th:text="${message}"></h1>
   </div>
   <footer th:replace="~{fragments/template-footer.html :: footer}"></footer>
 </body>

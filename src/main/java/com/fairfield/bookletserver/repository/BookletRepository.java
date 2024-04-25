@@ -14,6 +14,10 @@ import static com.fairfield.bookletserver.controller.IndexController.CONSTANT_PA
 public class BookletRepository {
   private Map<Long, Booklet> idToBooklet;
   private Map<String, Booklet> nameToBooklet;
+
+  @Autowired
+  UserRepository userRepository;
+
   @Autowired
   public void init() {
     idToBooklet = new HashMap<>();
@@ -21,42 +25,42 @@ public class BookletRepository {
     var book1 = Booklet.newBuilder()
         .withId(1L)
         .withLevelId(1L)
-        .withFileName("silver.png")
+        .withFileName("silverSA_TDSDec2016.pdf")
         .withCreated(Date.valueOf("2024-04-18"))
         .withUpdated(Date.valueOf("2024-04-18"))
         .build();
     var book2 = Booklet.newBuilder()
         .withId(2L)
         .withLevelId(1L)
-        .withFileName("tds_vc.png")
+        .withFileName("TDS_vinyl_coat.pdf")
         .withCreated(Date.valueOf("2024-04-18"))
         .withUpdated(Date.valueOf("2024-04-18"))
         .build();
     var book3 = Booklet.newBuilder()
         .withId(3L)
         .withLevelId(2L)
-        .withFileName("brAlloy.png")
+        .withFileName("brAlloy25C17200StripDataSheet.pdf")
         .withCreated(Date.valueOf("2024-04-18"))
         .withUpdated(Date.valueOf("2024-04-18"))
         .build();
     var book4 = Booklet.newBuilder()
         .withId(4L)
         .withLevelId(2L)
-        .withFileName("hardchrome.png")
+        .withFileName("hard-chrome-105-plating-proces.pdf")
         .withCreated(Date.valueOf("2024-04-18"))
         .withUpdated(Date.valueOf("2024-04-18"))
         .build();
     var book5 = Booklet.newBuilder()
         .withId(5L)
         .withLevelId(2L)
-        .withFileName("jotun.png")
+        .withFileName("jotunSurface37f.pdf")
         .withCreated(Date.valueOf("2024-04-18"))
         .withUpdated(Date.valueOf("2024-04-18"))
         .build();
     var book6 = Booklet.newBuilder()
         .withId(6L)
         .withLevelId(2L)
-        .withFileName("sdsBrightGold.png")
+        .withFileName("SDS_-_Bright_Gold_Solution_-2022.pdf")
         .withCreated(Date.valueOf("2024-04-18"))
         .withUpdated(Date.valueOf("2024-04-18"))
         .build();
@@ -83,20 +87,24 @@ public class BookletRepository {
   }
 
   public Booklet getBookletByName(String fileName) {
-    return nameToBooklet.get(fileName);
-  }
+    var booklet = nameToBooklet.get(fileName);
+    if (userRepository.getUserFromContext().getLevelId() >= booklet.getLevelId()) {
+      return booklet;
+    } else {
+      return null;
+    }
 
-  public String getBookletFileNameById(Long id) {
-    return idToBooklet.get(id).getFileName();
   }
-
   public List<BookletSearchResponse> getAllBookletPaths() {
+    var userLevelId = userRepository.getUserFromContext().getLevelId();
     var names = new ArrayList<BookletSearchResponse>();
-    idToBooklet.values().forEach(booklet ->
+    idToBooklet.values().forEach(booklet -> {
+      if (userLevelId >= booklet.getLevelId()) {
         names.add(BookletSearchResponse.newBuilder()
             .withPathToFile(String.format(CONSTANT_PATH_TO_BOOKLET, booklet.getFileName(), booklet.getLevelId()))
-            .withFileName(booklet.getFileName()).build())
-    );
+            .withFileName(booklet.getFileName()).build());
+      }
+    });
     return names;
   }
 
@@ -105,10 +113,11 @@ public class BookletRepository {
     for (Booklet booklet: nameToBooklet.values()) {
       var name = booklet.getFileName();
       var level = booklet.getLevelId();
-      if (name.contains(keyword)
+      if ((name.contains(keyword)
           || keyword.contains(name)
           || keyword.equalsIgnoreCase(name)
-          || String.valueOf(level).equalsIgnoreCase(keyword)
+          || String.valueOf(level).equalsIgnoreCase(keyword))
+          && userRepository.getUserFromContext().getLevelId() >= booklet.getLevelId()
       ) {
         allMatches.add(BookletSearchResponse.newBuilder()
             .withPathToFile(String.format(CONSTANT_PATH_TO_BOOKLET, name, level))

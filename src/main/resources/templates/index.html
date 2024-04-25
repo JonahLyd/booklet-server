@@ -20,7 +20,7 @@
   <div class="bookletDisplay" th:if="${isSearch}">
     <h3>Search Results:</h3>
     <ul>
-      <li th:each="l : ${list}" th:field="${l}"><a th:href="${l.pathToFile}" th:text="${l.fileName.replace('.png','.pdf')}"></a></li>
+      <li th:each="l : ${list}" th:field="${l}"><a th:href="${l.pathToFile}" th:text="${l.fileName}"></a></li>
     </ul>
   </div>
 <footer th:replace="~{fragments/template-footer.html :: footer}"></footer>

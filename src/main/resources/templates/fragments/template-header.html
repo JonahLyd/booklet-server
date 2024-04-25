@@ -27,6 +27,18 @@
       <button class="btn btn-info" type="submit" data-button="reset">Reset</button>
     </form>
   </div>
+  <form
+      th:if="${user.levelId == 2}"
+      class="uploadForm"
+      method="post"
+      th:action="@{/upload}"
+      enctype="multipart/form-data">
+    <label for="input-file" id="uploadLabel">Upload a File</label>
+    <input id="input-file" type="file" name="file" accept="application/pdf" />
+    <label for="level1" class="levelLabel">level 1</label><input name="level" id="level1" type="radio" value="1" data-button="level"><br>
+    <label for="level2" class="levelLabel">level 2</label><input name="level" id="level2" type="radio" value="2" data-button="level">
+    <button class="btn btn-info" type="submit" data-button="upload">Upload</button>
+  </form>
 </header>
 
 

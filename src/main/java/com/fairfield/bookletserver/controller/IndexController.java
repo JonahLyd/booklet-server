@@ -5,6 +5,7 @@ import com.fairfield.bookletserver.entity.BookletSearchResponse;
 import com.fairfield.bookletserver.repository.BookletRepository;
 import com.fairfield.bookletserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +29,11 @@ public class IndexController {
       var booklet = bookletRepository.getBookletById(bookletId);
       var name = "fileName" + index;
       var path = "filePath" + index;
-      model.addAttribute(name, booklet.getFileName().replace(".png", ".pdf"));
+      model.addAttribute(name, booklet.getFileName());
       model.addAttribute(path, String.format(CONSTANT_PATH_TO_BOOKLET, booklet.getFileName(), booklet.getLevelId()));
       index += 1;
     }
+    model.addAttribute("user", userRepository.getUserFromContext());
     model.addAttribute("previous", "lorem ipsum");
     model.addAttribute("isNotSearch", true);
     model.addAttribute("isSearch", false);
@@ -47,6 +49,7 @@ public class IndexController {
     } else {
       list = bookletRepository.getAllBookletPaths();
     }
+    model.addAttribute("user", userRepository.getUserFromContext());
     model.addAttribute("previous", keyword);
     model.addAttribute("list", list);
     model.addAttribute("isNotSearch", false);
